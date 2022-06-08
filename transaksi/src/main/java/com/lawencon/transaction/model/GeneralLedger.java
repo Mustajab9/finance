@@ -38,6 +38,9 @@ public class GeneralLedger extends BaseModel {
 
 	@Column(name = "credit")
 	private Double credit;
+	
+	@Column(name = "saldo")
+	private Double saldo;
 
 	public String getTransactionCode() {
 		return transactionCode;
@@ -109,5 +112,13 @@ public class GeneralLedger extends BaseModel {
 
 	public void setCredit(Double credit) {
 		this.credit = credit;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
 	}
 }

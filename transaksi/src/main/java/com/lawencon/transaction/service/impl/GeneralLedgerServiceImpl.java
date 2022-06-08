@@ -66,6 +66,10 @@ public class GeneralLedgerServiceImpl extends BaseServiceImpl implements General
 
 			data.setVersion(gl.getVersion());
 			data.setIsActive(gl.getIsActive());
+			
+			if(gl.getSaldo() != null) {
+				data.setSaldo(gl.getSaldo());
+			}
 
 			data.setCoaId(gl.getCoaId());
 			data.setCoaCode(gl.getCoaCode());
@@ -119,6 +123,10 @@ public class GeneralLedgerServiceImpl extends BaseServiceImpl implements General
 
 		if (gl.getDescription() != null) {
 			data.setDescription(gl.getDescription());
+		}
+		
+		if(gl.getSaldo() != null) {
+			data.setSaldo(gl.getSaldo());
 		}
 
 		data.setVersion(gl.getVersion());
@@ -199,5 +207,66 @@ public class GeneralLedgerServiceImpl extends BaseServiceImpl implements General
 		response.setMessage(ResponseMessageType.SAVED.getDesc());
 
 		return response;
+	}
+	
+	@Override
+	public GetAllGLDtoRes getSaldoGL(Long id) throws Exception {
+		GetAllGLDtoRes getSaldoGL = new GetAllGLDtoRes();
+
+		List<GeneralLedger> gls = generalLedgerDao.getSaldoGL(id);
+		List<GetAllGLDtoDataRes> ListGL = new ArrayList<>();
+
+		int length = gls.size();
+		for (int i = 0; i < length; i++) {
+			GeneralLedger gl = gls.get(i);
+			GetAllGLDtoDataRes data = new GetAllGLDtoDataRes();
+
+			data.setId(gl.getId());
+			data.setTransactionCode(gl.getTransactionCode());
+			data.setTransactionDate(gl.getTransactionDate());
+			data.setDebit(gl.getDebit());
+			data.setCredit(gl.getCredit());
+
+			if (gl.getDescription() != null) {
+				data.setDescription(gl.getDescription());
+			}
+
+			data.setVersion(gl.getVersion());
+			data.setIsActive(gl.getIsActive());
+			
+			if(gl.getSaldo() != null) {
+				data.setSaldo(gl.getSaldo());
+			}
+
+			data.setCoaId(gl.getCoaId());
+			data.setCoaCode(gl.getCoaCode());
+			data.setCoaName(gl.getCoaName());
+
+			ChartOfAccountPojo coaPojo = restTemplate.getForObject(
+					"http://MASTER-SERVICE/master/chart-of-accounts/" + data.getCoaId(), ChartOfAccountPojo.class);
+
+			ChartOfAccountDataPojo coaData = coaPojo.getData();
+			
+			if (coaData.getCoaParent() != null) {
+				data.setCoaParent(coaData.getCoaParent());
+
+				ChartOfAccountPojo parentPojo = restTemplate.getForObject(
+						"http://MASTER-SERVICE/master/chart-of-accounts/" + coaData.getCoaParent(), ChartOfAccountPojo.class);
+
+				ChartOfAccountDataPojo parentData = parentPojo.getData();
+
+				if (parentData != null) {
+					data.setCoaParentCode(parentData.getCoaCode());
+					data.setCoaParentName(parentData.getCoaName());
+				}
+			}
+
+			ListGL.add(data);
+		}
+
+		getSaldoGL.setData(ListGL);
+		getSaldoGL.setMsg(null);
+
+		return getSaldoGL	;
 	}
 }

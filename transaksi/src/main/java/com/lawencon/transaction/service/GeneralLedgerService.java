@@ -11,4 +11,6 @@ public interface GeneralLedgerService {
 	GetByGLIdDtoRes getById(Long id) throws Exception;
 	
 	InsertDtoRes insert(InsertGLDtoReq data) throws Exception;
+	
+	GetAllGLDtoRes getSaldoGL(Long id) throws Exception;
 }

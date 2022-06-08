@@ -8,6 +8,7 @@ public class GetAllGLDtoDataRes {
 	private LocalDate transactionDate;
 	private Double debit;
 	private Double credit;
+	private Double saldo;
 	private String description;
 	private Long coaId;
 	private Long coaParent;
@@ -58,6 +59,14 @@ public class GetAllGLDtoDataRes {
 
 	public void setCredit(Double credit) {
 		this.credit = credit;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
 	}
 
 	public String getDescription() {

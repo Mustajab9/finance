@@ -45,4 +45,10 @@ public class GeneralLedgerController {
 		GetByGLIdDtoRes getById = generalLedgerService.getById(id);
 		return new ResponseEntity<GetByGLIdDtoRes>(getById, HttpStatus.OK);
 	}
+	
+	@GetMapping("/saldo/{id}")
+	public ResponseEntity<GetAllGLDtoRes> getSaldoGL(@PathVariable("id") Long id) throws Exception{
+		GetAllGLDtoRes getSaldoGL = generalLedgerService.getSaldoGL(id);
+		return new ResponseEntity<GetAllGLDtoRes>(getSaldoGL, HttpStatus.OK);
+	}
 }
